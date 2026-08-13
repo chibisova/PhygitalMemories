@@ -1,0 +1,124 @@
+# ============================================================
+# Objects With Memories — Git Ignore
+# ============================================================
+
+
+# ============================================================
+# Xcode / macOS
+# ============================================================
+
+# Xcode user-specific settings
+xcuserdata/
+*.xcuserstate
+*.xcscmblueprint
+
+# Xcode workspace user data
+*.xcworkspace/xcuserdata/
+
+# Build products
+build/
+Build/
+DerivedData/
+
+# Archives
+*.xcarchive
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+
+
+# ============================================================
+# XcodeGen
+# ============================================================
+
+# project.yml is the source of truth.
+# The Xcode project is generated from it.
+ObjectsWithMemories.xcodeproj/
+
+
+# ============================================================
+# Claude Code
+# ============================================================
+
+# Local Claude Code settings may contain machine/user-specific
+# configuration and should not be committed.
+.claude/settings.local.json
+
+
+# ============================================================
+# Secrets / credentials
+# ============================================================
+
+.env
+.env.*
+!.env.example
+
+*.pem
+*.p12
+*.mobileprovision
+*.provisionprofile
+
+
+# ============================================================
+# IDE / editor settings
+# ============================================================
+
+.vscode/
+.idea/
+
+
+# ============================================================
+# Temporary / generated files
+# ============================================================
+
+*.tmp
+*.temp
+*.log
+*.swp
+*.swo
+*.bak
+
+
+# ============================================================
+# Local / personal media
+# ============================================================
+
+# Personal memories and locally captured media
+LocalMedia/
+CapturedMedia/
+Recordings/
+Private/
+Personal/
+Secrets/
+
+
+# ============================================================
+# Local testing
+# ============================================================
+
+# Local test captures / generated test output
+test/
+
+
+# ============================================================
+# AR / 3D scanning experiment data
+# ============================================================
+
+# Local scanning experiments and generated reconstruction data
+ScanningAndDetecting3DObjects/
+
+# Generated archive of scanning experiments
+*.zip
+
+# Large generated 3D data
+Scans/
+ScanData/
+PointClouds/
+Meshes/
+Reconstructions/
+ObjectScans/
+GeneratedObjects/

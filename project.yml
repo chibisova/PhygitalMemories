@@ -1,0 +1,55 @@
+name: ObjectsWithMemories
+options:
+  bundleIdPrefix: com.objectswithmemories
+  deploymentTarget:
+    iOS: "18.0"
+settings:
+  DEVELOPMENT_TEAM: ""
+targets:
+  ObjectsWithMemories:
+    type: application
+    platform: iOS
+    sources:
+      - path: ObjectsWithMemories
+        excludes:
+          - "Resources/ReferenceObjects/**"
+          - "Resources/MemoryImages/**"
+          - "Resources/MemoryVideos/**"
+          - "Resources/MemoryAudio/**"
+      - path: ObjectsWithMemories/Resources/ReferenceObjects
+        type: folder
+        buildPhase: resources
+    info:
+      path: ObjectsWithMemories/Resources/Info.plist
+      properties:
+        UILaunchScreen: {}
+        NSCameraUsageDescription: "Objects With Memories uses the camera to recognize physical objects and anchor your memories to them."
+        UIRequiredDeviceCapabilities:
+          - arkit
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.objectswithmemories.app
+        SWIFT_VERSION: "5.0"
+        TARGETED_DEVICE_FAMILY: "1"
+        IPHONEOS_DEPLOYMENT_TARGET: "18.0"
+  ObjectsWithMemoriesTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: ObjectsWithMemoriesTests
+    dependencies:
+      - target: ObjectsWithMemories
+    settings:
+      base:
+        IPHONEOS_DEPLOYMENT_TARGET: "18.0"
+schemes:
+  ObjectsWithMemories:
+    build:
+      targets:
+        ObjectsWithMemories: all
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - ObjectsWithMemoriesTests
