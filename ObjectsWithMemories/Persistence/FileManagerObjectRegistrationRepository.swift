@@ -71,6 +71,12 @@ final class FileManagerObjectRegistrationRepository: ObjectRegistrationRepositor
         return RegisteredObject(id: newID, name: newName, photoFileURLs: photoURLs(in: newDir))
     }
 
+    func deleteObject(_ object: RegisteredObject) throws {
+        // Removes the whole Documents/Objects/<id> directory — reference photos and
+        // attached memories both live under it, so this deletes both together.
+        try fileManager.removeItem(at: objectDirectory(for: object.id))
+    }
+
     private var objectsRootDirectory: URL {
         let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
         let root = documentsDirectory.appendingPathComponent("Objects")

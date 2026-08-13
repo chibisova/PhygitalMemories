@@ -6,4 +6,5 @@ protocol ObjectRegistrationRepository {
     func addPhotos(_ photos: [Data], to object: RegisteredObject) throws -> RegisteredObject
     func removePhoto(_ url: URL, from object: RegisteredObject) throws -> RegisteredObject
     func rename(_ object: RegisteredObject, to newName: String) throws -> RegisteredObject
+    func deleteObject(_ object: RegisteredObject) throws
 }

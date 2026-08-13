@@ -25,6 +25,9 @@ struct ProductARCameraView: UIViewRepresentable {
         sessionManager.onMemoriesChanged = { [weak coordinator = context.coordinator] objectID in
             coordinator?.refreshMemories(for: objectID)
         }
+        sessionManager.onObjectDeleted = { [weak coordinator = context.coordinator] objectID in
+            coordinator?.remove(objectID)
+        }
 
         return arView
     }
@@ -64,6 +67,13 @@ struct ProductARCameraView: UIViewRepresentable {
                 child.removeFromParent()
             }
             populate(anchorEntity, for: object)
+        }
+
+        func remove(_ objectID: UUID) {
+            placedObjects.removeValue(forKey: objectID)
+            guard let arView,
+                  let anchorEntity = arView.scene.anchors.first(where: { $0.name == objectID.uuidString }) else { return }
+            arView.scene.removeAnchor(anchorEntity)
         }
 
         private func populate(_ anchorEntity: AnchorEntity, for object: RecognizedObject) {

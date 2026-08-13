@@ -13,6 +13,9 @@ final class ProductARSessionManager: ObservableObject {
     /// Set by `ProductARCameraView` so already-placed content can be refreshed on demand —
     /// see `notifyMemoriesChanged(for:)`.
     var onMemoriesChanged: ((UUID) -> Void)?
+    /// Set by `ProductARCameraView` so an already-placed anchor can be torn down —
+    /// see `notifyObjectDeleted(for:)`.
+    var onObjectDeleted: ((UUID) -> Void)?
 
     private let registrationRepository: ObjectRegistrationRepository
     private var recognitionService: EmbeddingObjectRecognitionService?
@@ -64,5 +67,12 @@ final class ProductARSessionManager: ObservableObject {
     /// change without waiting for the object to be re-recognized (or the app relaunched).
     func notifyMemoriesChanged(for objectID: UUID) {
         onMemoriesChanged?(objectID)
+    }
+
+    /// Call after deleting a registered object so any already-placed AR content for it
+    /// is removed immediately, and it stops being recognizable going forward.
+    func notifyObjectDeleted(for objectID: UUID) {
+        recognitionService?.reload()
+        onObjectDeleted?(objectID)
     }
 }

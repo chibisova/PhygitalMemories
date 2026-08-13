@@ -10,12 +10,10 @@ Physical object → Visual recognition → Object identity → Associated memory
 
 The product hypothesis: people may find it meaningful to access personal memories by looking at the physical objects associated with them. The physical object is the interface — the goal is for it to feel like *"this object remembers."*
 
-<!--
-  TODO: drop a demo GIF/screen recording here, e.g.:
-  ![Demo](documentation/media/demo.gif)
-  A short clip of Product mode — register an object, point the camera back at it,
-  watch a memory appear anchored in AR — sells this far better than the description above.
--->
+| Registering a new object | Recognizing already-registered objects |
+|---|---|
+| Add Memory → register a new object with photos → point the camera at it and watch it get recognized right away | Launch straight into Product mode and see previously-registered objects recognized on sight |
+| ![Registering a new object](documentation/media/demo-register.gif) | ![Recognizing already-registered objects](documentation/media/demo-recognize.gif) |
 
 ## Status
 

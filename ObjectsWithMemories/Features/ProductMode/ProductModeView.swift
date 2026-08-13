@@ -60,7 +60,8 @@ struct ProductModeView: View {
                     objectRegistrationRepository: objectRegistrationRepository,
                     memoryRepository: memoryRepository,
                     onChanged: { sessionManager.reloadRegisteredObjects() },
-                    onMemoriesChanged: { sessionManager.notifyMemoriesChanged(for: $0) }
+                    onMemoriesChanged: { sessionManager.notifyMemoriesChanged(for: $0) },
+                    onDeleted: { sessionManager.notifyObjectDeleted(for: $0) }
                 )
             }
     }

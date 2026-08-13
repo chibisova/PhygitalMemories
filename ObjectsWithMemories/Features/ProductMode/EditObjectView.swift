@@ -8,7 +8,9 @@ struct EditObjectView: View {
     let memoryRepository: MemoryRepository
     let onChanged: () -> Void
     let onMemoriesChanged: (UUID) -> Void
+    let onDeleted: (UUID) -> Void
 
+    @Environment(\.dismiss) private var dismiss
     @State private var currentObject: RegisteredObject
     @State private var name: String
     @State private var memories: [Memory] = []
@@ -22,19 +24,22 @@ struct EditObjectView: View {
     @State private var newAudioFileName: String?
     @State private var newNoteText = ""
     @State private var newNoteColor: Color = .white
+    @State private var isShowingDeleteConfirmation = false
 
     init(
         object: RegisteredObject,
         objectRegistrationRepository: ObjectRegistrationRepository,
         memoryRepository: MemoryRepository,
         onChanged: @escaping () -> Void,
-        onMemoriesChanged: @escaping (UUID) -> Void
+        onMemoriesChanged: @escaping (UUID) -> Void,
+        onDeleted: @escaping (UUID) -> Void
     ) {
         self.object = object
         self.objectRegistrationRepository = objectRegistrationRepository
         self.memoryRepository = memoryRepository
         self.onChanged = onChanged
         self.onMemoriesChanged = onMemoriesChanged
+        self.onDeleted = onDeleted
         _currentObject = State(initialValue: object)
         _name = State(initialValue: object.name)
     }
@@ -100,6 +105,13 @@ struct EditObjectView: View {
             if let errorMessage {
                 Text(errorMessage).foregroundStyle(.red)
             }
+
+            Section {
+                Button("Delete Object", role: .destructive) {
+                    isShowingDeleteConfirmation = true
+                }
+                .frame(maxWidth: .infinity, alignment: .center)
+            }
         }
         .navigationTitle(currentObject.name)
         .navigationBarTitleDisplayMode(.inline)
@@ -107,6 +119,14 @@ struct EditObjectView: View {
         .fileImporter(isPresented: $isShowingAudioImporter, allowedContentTypes: [.audio]) { result in
             guard case .success(let url) = result else { return }
             loadAudio(from: url)
+        }
+        .confirmationDialog(
+            "Delete \(currentObject.name)? This removes it and all its memories permanently.",
+            isPresented: $isShowingDeleteConfirmation,
+            titleVisibility: .visible
+        ) {
+            Button("Delete", role: .destructive) { deleteObject() }
+            Button("Cancel", role: .cancel) {}
         }
     }
 
@@ -163,6 +183,16 @@ struct EditObjectView: View {
             onChanged()
         } catch {
             errorMessage = "Could not remove photo: \(error.localizedDescription)"
+        }
+    }
+
+    private func deleteObject() {
+        do {
+            try objectRegistrationRepository.deleteObject(currentObject)
+            onDeleted(currentObject.id)
+            dismiss()
+        } catch {
+            errorMessage = "Could not delete object: \(error.localizedDescription)"
         }
     }
 

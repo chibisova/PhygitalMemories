@@ -5,6 +5,7 @@ struct ObjectLibraryView: View {
     let memoryRepository: MemoryRepository
     let onChanged: () -> Void
     let onMemoriesChanged: (UUID) -> Void
+    let onDeleted: (UUID) -> Void
 
     @Environment(\.dismiss) private var dismiss
     @State private var objects: [RegisteredObject] = []
@@ -25,7 +26,11 @@ struct ObjectLibraryView: View {
                                 reload()
                                 onChanged()
                             },
-                            onMemoriesChanged: onMemoriesChanged
+                            onMemoriesChanged: onMemoriesChanged,
+                            onDeleted: { id in
+                                reload()
+                                onDeleted(id)
+                            }
                         )
                     } label: {
                         VStack(alignment: .leading) {
